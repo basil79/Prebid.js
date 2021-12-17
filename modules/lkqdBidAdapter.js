@@ -235,6 +235,7 @@ function interpretResponse(serverResponse, bidRequest) {
               bidResponse.creativeId = sspXml.getElementsByTagName('Ad')[0].getAttribute('id');
               bidResponse.currency = sspXml.getElementsByTagName('Pricing')[0].getAttribute('currency');
               bidResponse.netRevenue = true;
+              // TODO:
               //bidResponse.vastUrl = sspUrl;
               bidResponse.vastXml = sspXmlString;
               bidResponse.mediaType = VIDEO;
