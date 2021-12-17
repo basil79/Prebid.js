@@ -21,7 +21,7 @@ var videoAdUnit = [
     code: 'video1',
     mediaTypes: {
         video: {
-            context: "instream",
+            context: 'instream',
             playerSize: [640, 480]
         }
     },
@@ -41,7 +41,6 @@ The LKQD Bidder Adapter expects Prebid Cache to be enabled so that we can store 
 
 ```javascript
 pbjs.setConfig({
-    usePrebidCache: true,
     cache: {
         url: 'https://prebid.adnxs.com/pbc/v1/cache'
     }
