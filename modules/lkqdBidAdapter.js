@@ -223,7 +223,7 @@ function interpretResponse(serverResponse, bidRequest) {
             let sspXmlString = serverResponse.body;
             let sspXml = new window.DOMParser().parseFromString(sspXmlString, 'text/xml');
             if (sspXml && sspXml.getElementsByTagName('parsererror').length == 0) {
-              let sspUrl = bidRequest.url.concat();
+              //let sspUrl = bidRequest.url.concat();
 
               bidResponse.requestId = sspBidId;
               bidResponse.bidderCode = BIDDER_CODE;
@@ -235,7 +235,7 @@ function interpretResponse(serverResponse, bidRequest) {
               bidResponse.creativeId = sspXml.getElementsByTagName('Ad')[0].getAttribute('id');
               bidResponse.currency = sspXml.getElementsByTagName('Pricing')[0].getAttribute('currency');
               bidResponse.netRevenue = true;
-              bidResponse.vastUrl = sspUrl;
+              //bidResponse.vastUrl = sspUrl;
               bidResponse.vastXml = sspXmlString;
               bidResponse.mediaType = VIDEO;
 
