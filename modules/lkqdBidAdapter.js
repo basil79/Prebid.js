@@ -241,7 +241,7 @@ function interpretResponse(serverResponse, bidRequest) {
               bidResponse.currency = sspXml.getElementsByTagName('Pricing')[0].getAttribute('currency');
               bidResponse.netRevenue = true;
               // TODO:
-              bidResponse.vastUrl = ENDPOINT + '?' + bidRequest.data;
+              // bidResponse.vastUrl = ENDPOINT + '?' + bidRequest.data;
               bidResponse.vastXml = sspXmlString;
               bidResponse.mediaType = VIDEO;
 
