@@ -45,7 +45,7 @@ function buildRequests(validBidRequests, bidderRequest) {
       sizes = [[640, 480]];
     }
 
-    // JWPlayer demo page uses sizes: [640,480] instead of sizes: [[640,480]] so need to handle single-layer array as well as nested arrays
+    // sizes: [640,480] instead of sizes: [[640,480]] so need to handle single-layer array as well as nested arrays
     if (bidRequestSizes && bidRequestSizes.length > 0) {
       sizes = bidRequestSizes;
       if (bidRequestSizes.length === 2 && typeof bidRequestSizes[0] === 'number' && typeof bidRequestSizes[1] === 'number') {
@@ -69,7 +69,6 @@ function buildRequests(validBidRequests, bidderRequest) {
         logWarn('Warning: Could not determine width/height from the provided adUnit');
       }
 
-      let sspUrl = ENDPOINT.concat();
       let sspData = {};
 
       // required parameters
@@ -145,9 +144,11 @@ function buildRequests(validBidRequests, bidderRequest) {
       if (bidRequest.params.hasOwnProperty('timeout') && bidRequest.params.timeout != null) {
         sspData.timeout = bidRequest.params.timeout;
       }
+      /*
       if (bidRequest.params.hasOwnProperty('dnt') && bidRequest.params.dnt != null) {
         sspData.dnt = bidRequest.params.dnt;
       }
+       */
       if (bidRequest.params.hasOwnProperty('pageurl') && bidRequest.params.pageurl != null) {
         sspData.pageurl = bidRequest.params.pageurl;
       } else if (bidderRequest && bidderRequest.refererInfo) {
@@ -166,6 +167,12 @@ function buildRequests(validBidRequests, bidderRequest) {
         sspData.contenturl = bidRequest.params.contentUrl;
       }
 
+      // User agent
+      sspData.ua = navigator.userAgent;
+      sspData.js = 1;
+      // Do not track
+      sspData.dnt = (navigator.doNotTrack == 'yes' || navigator.doNotTrack == '1' || navigator.msDoNotTrack == '1') ? 1 : 0;
+
       // random number to prevent caching
       sspData.rnd = Math.floor(Math.random() * 999999999);
 
@@ -176,8 +183,8 @@ function buildRequests(validBidRequests, bidderRequest) {
 
       bidRequests.push({
         method: 'GET',
-        url: sspUrl,
-        data: Object.keys(sspData).map(function (key) { return key + '=' + sspData[key] }).join('&') + '&'
+        url: ENDPOINT,
+        data: Object.keys(sspData).map(function (key) { return key + '=' + sspData[key] }).join('&')
       });
     }
   }
@@ -223,8 +230,6 @@ function interpretResponse(serverResponse, bidRequest) {
             let sspXmlString = serverResponse.body;
             let sspXml = new window.DOMParser().parseFromString(sspXmlString, 'text/xml');
             if (sspXml && sspXml.getElementsByTagName('parsererror').length == 0) {
-              //let sspUrl = bidRequest.url.concat();
-
               bidResponse.requestId = sspBidId;
               bidResponse.bidderCode = BIDDER_CODE;
               bidResponse.ad = '';
@@ -236,7 +241,7 @@ function interpretResponse(serverResponse, bidRequest) {
               bidResponse.currency = sspXml.getElementsByTagName('Pricing')[0].getAttribute('currency');
               bidResponse.netRevenue = true;
               // TODO:
-              //bidResponse.vastUrl = sspUrl;
+              bidResponse.vastUrl = ENDPOINT + '?' + bidRequest.data;
               bidResponse.vastXml = sspXmlString;
               bidResponse.mediaType = VIDEO;
 
