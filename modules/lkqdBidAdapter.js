@@ -30,6 +30,17 @@ function isBidRequestValid(bidRequest) {
   return false;
 }
 
+function serializeSupplyChain(schain) {
+  var keys = 'asi sid hp rid name domain'.split(' ');
+  return schain.ver + ',' + schain.complete + '!' + schain.nodes.map(function(el) {
+    return keys.map(function(key) {
+      return el[key] ? encodeURIComponent(el[key]) : ''
+    }
+    ).join(',')
+  }
+  ).join('!')
+}
+
 function buildRequests(validBidRequests, bidderRequest) {
   let bidRequests = [];
 
@@ -123,21 +134,42 @@ function buildRequests(validBidRequests, bidderRequest) {
       if (bidRequest.params.hasOwnProperty('idfa') && bidRequest.params.idfa != null) {
         sspData.idfa = bidRequest.params.idfa;
       }
+
+      // GDPR
+      if (bidderRequest.gdprConsent) {
+        sspData.gdpr = bidderRequest.gdprConsent.gdprApplies ? 1 : 0;
+        sspData.gdprcs = bidderRequest.gdprConsent.consentString;
+      }
+      /*
       if (bidRequest.params.hasOwnProperty('gdpr') && bidRequest.params.gdpr != null) {
         sspData.gdpr = bidRequest.params.gdpr;
       }
       if (bidRequest.params.hasOwnProperty('gdprcs') && bidRequest.params.gdprcs != null) {
         sspData.gdprcs = bidRequest.params.gdprcs;
       }
+       */
+      // US Privacy
+      if(bidderRequest.uspConsent) {
+        sspData.usp = bidderRequest.uspConsent
+      }
+
       if (bidRequest.params.hasOwnProperty('flrd') && bidRequest.params.flrd != null) {
         sspData.flrd = bidRequest.params.flrd;
       }
       if (bidRequest.params.hasOwnProperty('flrmp') && bidRequest.params.flrmp != null) {
         sspData.flrmp = bidRequest.params.flrmp;
       }
+
+      // Supply Chain
+      if (bidRequest.schain) {
+        sspData.schain = serializeSupplyChain(bidRequest.schain)
+      }
+      /*
       if (bidRequest.params.hasOwnProperty('schain') && bidRequest.params.schain != null) {
         sspData.schain = bidRequest.params.schain;
       }
+       */
+
       if (bidRequest.params.hasOwnProperty('placement') && bidRequest.params.placement != null) {
         sspData.placement = bidRequest.params.placement;
       }
