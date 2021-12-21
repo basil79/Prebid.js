@@ -140,16 +140,8 @@ function buildRequests(validBidRequests, bidderRequest) {
         sspData.gdpr = bidderRequest.gdprConsent.gdprApplies ? 1 : 0;
         sspData.gdprcs = bidderRequest.gdprConsent.consentString;
       }
-      /*
-      if (bidRequest.params.hasOwnProperty('gdpr') && bidRequest.params.gdpr != null) {
-        sspData.gdpr = bidRequest.params.gdpr;
-      }
-      if (bidRequest.params.hasOwnProperty('gdprcs') && bidRequest.params.gdprcs != null) {
-        sspData.gdprcs = bidRequest.params.gdprcs;
-      }
-       */
       // US Privacy
-      if(bidderRequest.uspConsent) {
+      if (bidderRequest.uspConsent) {
         sspData.usp = bidderRequest.uspConsent
       }
 
@@ -164,11 +156,6 @@ function buildRequests(validBidRequests, bidderRequest) {
       if (bidRequest.schain) {
         sspData.schain = serializeSupplyChain(bidRequest.schain)
       }
-      /*
-      if (bidRequest.params.hasOwnProperty('schain') && bidRequest.params.schain != null) {
-        sspData.schain = bidRequest.params.schain;
-      }
-       */
 
       if (bidRequest.params.hasOwnProperty('placement') && bidRequest.params.placement != null) {
         sspData.placement = bidRequest.params.placement;
@@ -176,11 +163,6 @@ function buildRequests(validBidRequests, bidderRequest) {
       if (bidRequest.params.hasOwnProperty('timeout') && bidRequest.params.timeout != null) {
         sspData.timeout = bidRequest.params.timeout;
       }
-      /*
-      if (bidRequest.params.hasOwnProperty('dnt') && bidRequest.params.dnt != null) {
-        sspData.dnt = bidRequest.params.dnt;
-      }
-       */
       if (bidRequest.params.hasOwnProperty('pageurl') && bidRequest.params.pageurl != null) {
         sspData.pageurl = bidRequest.params.pageurl;
       } else if (bidderRequest && bidderRequest.refererInfo) {
@@ -272,8 +254,6 @@ function interpretResponse(serverResponse, bidRequest) {
               bidResponse.creativeId = sspXml.getElementsByTagName('Ad')[0].getAttribute('id');
               bidResponse.currency = sspXml.getElementsByTagName('Pricing')[0].getAttribute('currency');
               bidResponse.netRevenue = true;
-              // TODO:
-              // bidResponse.vastUrl = ENDPOINT + '?' + bidRequest.data;
               bidResponse.vastXml = sspXmlString;
               bidResponse.mediaType = VIDEO;
 
