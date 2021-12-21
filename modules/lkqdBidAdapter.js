@@ -137,7 +137,7 @@ function buildRequests(validBidRequests, bidderRequest) {
 
       // GDPR
       if (bidderRequest.gdprConsent) {
-        sspData.gdpr = bidderRequest.gdprConsent.gdprApplies ? 1 : 0;
+        sspData.gdpr = bidderRequest.gdprConsent.gdprApplies; // ? 1 : 0;
         sspData.gdprcs = bidderRequest.gdprConsent.consentString;
       }
       // US Privacy
