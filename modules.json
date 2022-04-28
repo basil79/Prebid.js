@@ -1,7 +1,9 @@
 [
+  "33acrossBidAdapter",
   "amxBidAdapter",
   "appnexusBidAdapter",
   "conversantBidAdapter",
+  "criteoBidAdapter",
   "emx_digitalBidAdapter",
   "gridBidAdapter",
   "improvedigitalBidAdapter",
@@ -12,6 +14,7 @@
   "openxBidAdapter",
   "onetagBidAdapter",
   "pubmaticBidAdapter",
+  "pulsepointBidAdapter",
   "richaudienceBidAdapter",
   "riseBidAdapter",
   "rubiconBidAdapter",
