@@ -182,7 +182,7 @@ export function detectReferer(win) {
       reachedTop,
       isAmp: valuesFromAmp,
       numIframes: level - 1,
-      newStack, // stack,
+      stack: newStack, // stack,
       canonicalUrl: bestCanonicalUrl || null
     };
   }
