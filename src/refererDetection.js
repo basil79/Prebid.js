@@ -171,12 +171,18 @@ export function detectReferer(win) {
 
     stack.reverse();
 
+    // Replace 'about:srcdoc' with the last one
+    const newStack = stack.filter(url => url !== 'about:srcdoc');
+    if (newStack.length != 0 && newStack.length != stack.length) {
+      newStack.push(newStack[newStack.length - 1]);
+    }
+
     return {
       referer: bestReferrer || null,
       reachedTop,
       isAmp: valuesFromAmp,
       numIframes: level - 1,
-      stack,
+      stack: newStack, // stack,
       canonicalUrl: bestCanonicalUrl || null
     };
   }
