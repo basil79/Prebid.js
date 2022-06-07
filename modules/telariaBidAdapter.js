@@ -271,7 +271,7 @@ function createBid(status, reqBid, response, width, height, bidderCode) {
       cpm: response.price,
       creativeId: response.crid || '-1',
       vastXml: response.adm,
-      vastUrl: reqBid.vastUrl,
+      // vastUrl: reqBid.vastUrl,
       mediaType: 'video',
       width: width,
       height: height,
