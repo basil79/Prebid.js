@@ -37,5 +37,6 @@
   "gdprEnforcement",
   "gptPreAuction",
   "schain",
-  "pubProvidedIdSystem"
+  "pubProvidedIdSystem",
+  "unifiedIdSystem"
 ]

@@ -172,7 +172,18 @@ export function detectReferer(win) {
     stack.reverse();
 
     // Replace 'about:srcdoc' with the last one
-    const newStack = stack.filter(url => url !== 'about:srcdoc');
+    // const newStack = stack.filter(url => url !== 'about:srcdoc');
+    // Replace excludes with the last one
+    let excludes = 'about:srcdoc .ampproject.net'.split(' ');
+    function findInExcludes(url) {
+      for (let i = 0; i < excludes.length; i++) {
+        if (url.includes(excludes[i])) {
+          return true;
+        }
+      }
+      return false
+    }
+    const newStack = stack.filter(url => !findInExcludes(url));
     if (newStack.length != 0 && newStack.length != stack.length) {
       newStack.push(newStack[newStack.length - 1]);
     }

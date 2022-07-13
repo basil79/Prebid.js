@@ -1,6 +1,7 @@
 import { logError, isEmpty, deepAccess, triggerPixel, logWarn, isArray } from '../src/utils.js';
 import {createBid as createBidFactory} from '../src/bidfactory.js';
 import {registerBidder} from '../src/adapters/bidderFactory.js';
+import {config} from '../src/config.js';
 import {VIDEO} from '../src/mediaTypes.js';
 import CONSTANTS from '../src/constants.json';
 
@@ -120,7 +121,8 @@ export const spec = {
 };
 
 function getDefaultSrcPageUrl() {
-  return encodeURIComponent(document.location.href);
+  let pageUrl = config.getConfig('pageUrl') || window.location.href;
+  return encodeURIComponent(pageUrl);
 }
 
 function getEncodedValIfNotEmpty(val) {
