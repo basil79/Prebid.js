@@ -138,6 +138,7 @@ function getWindowSize() {
 
 function getCoordinates(adUnitCode) {
   let element = document.getElementById(adUnitCode);
+  /*
   if (!element && adUnitCode.indexOf('/') !== -1) {
     // now it means that adUnitCode is GAM AdUnitPath
     const {divId} = getGptSlotInfoForAdUnitCode(adUnitCode);
@@ -145,6 +146,7 @@ function getCoordinates(adUnitCode) {
       element = document.getElementById(divId);
     }
   }
+   */
   if (element && element.getBoundingClientRect) {
     const rect = element.getBoundingClientRect();
     let coordinates = {};

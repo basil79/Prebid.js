@@ -54,22 +54,18 @@ export const spec = {
         scr_rsl: raiGetResolution(),
         cpuc: (typeof window.navigator != 'undefined' ? window.navigator.hardwareConcurrency : null),
         kws: (!isEmpty(bid.params.keywords) ? bid.params.keywords : null),
-        schain: bid.schain
+        // schain: bid.schain
       };
 
       // TODO: is 'page' the right value here?
       REFERER = (typeof bidderRequest.refererInfo.page != 'undefined' ? encodeURIComponent(bidderRequest.refererInfo.page) : null)
 
       payload.gdpr_consent = '';
-      payload.gdpr = false;
+      payload.gdpr = null;
 
       if (bidderRequest && bidderRequest.gdprConsent) {
-        if (typeof bidderRequest.gdprConsent.gdprApplies != 'undefined') {
-          payload.gdpr = bidderRequest.gdprConsent.gdprApplies;
-        }
-        if (typeof bidderRequest.gdprConsent.consentString != 'undefined') {
-          payload.gdpr_consent = bidderRequest.gdprConsent.consentString;
-        }
+        payload.gdpr_consent = bidderRequest.gdprConsent.consentString;
+        payload.gdpr = bidderRequest.gdprConsent.gdprApplies;
       }
 
       var payloadString = JSON.stringify(payload);
@@ -310,7 +306,8 @@ function raiGetFloor(bid, config) {
     } else if (typeof bid.getFloor == 'function') {
       let floorSpec = bid.getFloor({
         currency: config.getConfig('floors.data.currency') != null ? config.getConfig('floors.data.currency') : 'USD',
-        mediaType: typeof bid.mediaTypes['banner'] == 'object' ? 'banner' : 'video',
+        // mediaType: typeof bid.mediaTypes['banner'] == 'object' ? 'banner' : 'video',
+        mediaType: bid.mediaType.banner ? 'banner' : 'video',
         size: '*'
       })
 

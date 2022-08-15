@@ -1,5 +1,6 @@
 import { logError, isEmpty, deepAccess, triggerPixel, logWarn, isArray } from '../src/utils.js';
 import {registerBidder} from '../src/adapters/bidderFactory.js';
+import {config} from '../src/config.js';
 import {VIDEO} from '../src/mediaTypes.js';
 
 const BIDDER_CODE = 'telaria';
@@ -124,7 +125,9 @@ export const spec = {
 };
 
 function getDefaultSrcPageUrl() {
-  return encodeURIComponent(document.location.href);
+  // return encodeURIComponent(document.location.href);
+  let pageUrl = config.getConfig('pageUrl') || window.location.href;
+  return encodeURIComponent(pageUrl);
 }
 
 function getEncodedValIfNotEmpty(val) {
@@ -271,7 +274,7 @@ function createBid(reqBid, response, width, height) {
     cpm: response.price,
     creativeId: response.crid || '-1',
     vastXml: response.adm,
-    vastUrl: reqBid.vastUrl,
+    // vastUrl: reqBid.vastUrl,
     mediaType: 'video',
     width: width,
     height: height,
