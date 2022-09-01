@@ -255,7 +255,7 @@ export function detectReferer(win) {
       canonicalUrl,
       page,
       domain: parseDomain(page) || null,
-      ref: ref || null,
+      ref: bestLocation || null,
       // TODO: the "legacy" refererInfo object is provided here, for now, to accomodate
       // adapters that decided to just send it verbatim to their backend.
       legacy: {

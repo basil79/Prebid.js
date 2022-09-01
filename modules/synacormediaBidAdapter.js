@@ -41,7 +41,7 @@ export const spec = {
         // TODO: does the fallback make sense here?
         domain: refererInfo.domain || location.hostname,
         page: refererInfo.page,
-        ref: refererInfo.ref
+        ref: refererInfo.ref // document.referrer
       },
       device: {
         ua: navigator.userAgent
