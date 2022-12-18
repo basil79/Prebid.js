@@ -560,9 +560,11 @@ function formatRequest(payload, bidderRequest) {
 
   let endpointUrl = URL;
 
+  /*
   if (!hasPurpose1Consent(bidderRequest?.gdprConsent)) {
     endpointUrl = URL_SIMPLE;
   }
+   */
 
   if (getParameterByName('apn_test').toUpperCase() === 'TRUE' || config.getConfig('apn_test') === true) {
     options.customHeaders = {
