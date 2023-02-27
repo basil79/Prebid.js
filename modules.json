@@ -27,6 +27,7 @@
   "smaatoBidAdapter",
   "spotxBidAdapter",
   "synacormediaBidAdapter",
+  "stroeerCoreBidAdapter",
   "telariaBidAdapter",
   "tripleliftBidAdapter",
   "unrulyBidAdapter",
