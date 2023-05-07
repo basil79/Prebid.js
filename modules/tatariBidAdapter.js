@@ -128,7 +128,7 @@ export const spec = {
             requestId: bidRequest.bidId,
             cpm: bid.price || 0,
             currency: serverResponse.cur || DEFAULT_CURRENCY,
-            creativeId: bid.crid,
+            creativeId: bid.crid || bid.id,
             bidderCode: BIDDER_CODE, // seatbid.seat,
             ttl: 300,
             ad: bid.adm,
