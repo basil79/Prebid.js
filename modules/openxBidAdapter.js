@@ -17,7 +17,7 @@ import {includes} from '../src/polyfill.js';
 const SUPPORTED_AD_TYPES = [BANNER, VIDEO];
 const VIDEO_TARGETING = ['startdelay', 'mimes', 'minduration', 'maxduration',
   'startdelay', 'skippable', 'playbackmethod', 'api', 'protocols', 'boxingallowed',
-  'linearity', 'delivery', 'protocol', 'placement', 'minbitrate', 'maxbitrate'];
+  'linearity', 'delivery', 'protocol', 'placement', 'plcmt', 'minbitrate', 'maxbitrate'];
 const BIDDER_CODE = 'openx';
 const BIDDER_CONFIG = 'hb_pb';
 const BIDDER_VERSION = '3.0.3';

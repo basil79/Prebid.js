@@ -113,6 +113,7 @@ export const sharethroughAdapterSpec = {
           skipmin: nullish(videoRequest.skipmin, 0),
           skipafter: nullish(videoRequest.skipafter, 0),
           placement: videoRequest.context === 'instream' ? 1 : +deepAccess(videoRequest, 'placement', 4),
+          plcmt: videoRequest.plcmt,
         };
 
         if (videoRequest.delivery) impression.video.delivery = videoRequest.delivery;
