@@ -192,10 +192,6 @@ export const spec = {
         spotxReq.video.ext.placement = getBidIdParameter('placement_type', bid.params);
       }
 
-      if (getBidIdParameter('plcmt', bid.params) != '') {
-        spotxReq.video.ext.plcmt = getBidIdParameter('plcmt', bid.params);
-      }
-
       if (getBidIdParameter('position', bid.params) != '') {
         spotxReq.video.ext.pos = getBidIdParameter('position', bid.params);
       } else {
