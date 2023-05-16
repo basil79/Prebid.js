@@ -293,7 +293,7 @@ function generateSharedParams(sharedParams, bidderRequest) {
   const generalBidParams = getBidIdParameter('params', sharedParams);
   const userIds = getBidIdParameter('userId', sharedParams);
   const ortb2Metadata = bidderRequest.ortb2 || {};
-  const timeout = config.getConfig('bidderTimeout');
+  const timeout = bidderRequest.timeout;
 
   const params = {
     adapter_version: VERSION,
@@ -309,7 +309,7 @@ function generateSharedParams(sharedParams, bidderRequest) {
     wrapper_type: 'prebidjs',
     wrapper_vendor: '$$PREBID_GLOBAL$$',
     wrapper_version: '$prebid.version$'
-  }
+  };
 
   if (syncEnabled) {
     const allowedSyncMethod = getSyncMethod(filterSettings, bidderCode);
@@ -352,7 +352,7 @@ function generateSharedParams(sharedParams, bidderRequest) {
     params.userIds = JSON.stringify(userIds);
   }
 
-  return params
+  return params;
 }
 
 /**

@@ -128,7 +128,7 @@ export const spec = {
 
       bidResponses.push(bidResponse);
     }
-    return bidResponses
+    return bidResponses;
   },
   /***
    * User Syncs

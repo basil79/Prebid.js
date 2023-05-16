@@ -2,9 +2,8 @@ import { deepAccess, generateUUID, inIframe } from '../src/utils.js';
 import { registerBidder } from '../src/adapters/bidderFactory.js';
 import { config } from '../src/config.js';
 import { BANNER, VIDEO } from '../src/mediaTypes.js';
-import { createEidsArray } from './userId/eids.js';
 
-const VERSION = '4.1.1';
+const VERSION = '4.3.0';
 const BIDDER_CODE = 'sharethrough';
 const SUPPLY_ID = 'WYu2BXv1';
 
@@ -22,7 +21,7 @@ export const sharethroughAdapterSpec = {
   isBidRequestValid: bid => !!bid.params.pkey && bid.bidder === BIDDER_CODE,
 
   buildRequests: (bidRequests, bidderRequest) => {
-    const timeout = config.getConfig('bidderTimeout');
+    const timeout = bidderRequest.timeout;
     const firstPartyData = bidderRequest.ortb2 || {};
 
     const nonHttp = sharethroughInternal.getProtocol().indexOf('http') < 0;
@@ -52,20 +51,21 @@ export const sharethroughAdapterSpec = {
         ext: {},
       },
       source: {
+        tid: bidderRequest.auctionId,
         ext: {
           version: '$prebid.version$',
           str: VERSION,
           schain: bidRequests[0].schain,
         },
       },
-      bcat: deepAccess(bidderRequest.ortb2Imp, 'bcat') || bidRequests[0].params.bcat || [],
-      badv: bidRequests[0].params.badv || [],
+      bcat: deepAccess(bidderRequest.ortb2, 'bcat') || bidRequests[0].params.bcat || [],
+      badv: deepAccess(bidderRequest.ortb2, 'badv') || bidRequests[0].params.badv || [],
       test: 0,
     };
 
     req.user = nullish(firstPartyData.user, {});
     if (!req.user.ext) req.user.ext = {};
-    req.user.ext.eids = createEidsArray(deepAccess(bidRequests[0], 'userId')) || [];
+    req.user.ext.eids = bidRequests[0].userIdAsEids || [];
 
     if (bidderRequest.gdprConsent) {
       const gdprApplies = bidderRequest.gdprConsent.gdprApplies === true;
@@ -80,12 +80,13 @@ export const sharethroughAdapterSpec = {
     }
 
     const imps = bidRequests.map(bidReq => {
-      const impression = {};
+      const impression = { ext: {} };
 
-      const gpid = deepAccess(bidReq, 'ortb2Imp.ext.data.pbadslot');
-      if (gpid) {
-        impression.ext = { gpid: gpid };
-      }
+      // mergeDeep(impression, bidReq.ortb2Imp); // leaving this out for now as we may want to leave stuff out on purpose
+      const tid = deepAccess(bidReq, 'ortb2Imp.ext.tid');
+      if (tid) impression.ext.tid = tid;
+      const gpid = deepAccess(bidReq, 'ortb2Imp.ext.gpid', deepAccess(bidReq, 'ortb2Imp.ext.data.pbadslot'));
+      if (gpid) impression.ext.gpid = gpid;
 
       const videoRequest = deepAccess(bidReq, 'mediaTypes.video');
 
