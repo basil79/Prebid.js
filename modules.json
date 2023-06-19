@@ -14,9 +14,11 @@
   "lkqdBidAdapter",
   "medianetBidAdapter",
   "minutemediaBidAdapter",
+  "nexx360BidAdapter",
   "openxBidAdapter",
   "onetagBidAdapter",
   "pubmaticBidAdapter",
+  "pubwiseBidAdapter",
   "pulsepointBidAdapter",
   "richaudienceBidAdapter",
   "riseBidAdapter",
@@ -44,7 +46,6 @@
   "gptPreAuction",
   "schain",
   "priceFloors",
-  "pubxaiAnalyticsAdapter",
   "pubProvidedIdSystem",
   "unifiedIdSystem"
 ]

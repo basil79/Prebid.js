@@ -68,6 +68,15 @@ const converter = ortbConverter({
     const imp = buildImp(bidRequest, context);
     const tagid = bidRequest.params.adUnitName ? bidRequest.params.adUnitName : bidRequest.adUnitCode;
     deepSetValue(imp, 'tagid', tagid);
+
+    // Floor
+    let bidFloor = parseFloat(deepAccess(bidRequest, 'params.bidfloor'));
+    let bidFloorCur = deepAccess(bidRequest, 'params.bidfloorcur', 'USD');
+    if (!isNaN(bidFloor)) {
+      deepSetValue(imp, 'bidfloor', bidFloor);
+      deepSetValue(imp, 'bidfloorcur', bidFloorCur);
+    }
+
     deepSetValue(imp, 'ext.adUnitCode', bidRequest.adUnitCode);
     const divId = bidRequest.params.divId ? bidRequest.params.divId : bidRequest.adUnitCode;
     deepSetValue(imp, 'ext.divId', divId);
