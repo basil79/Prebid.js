@@ -35,6 +35,7 @@
   "telariaBidAdapter",
   "tripleliftBidAdapter",
   "unrulyBidAdapter",
+  "undertoneBidAdapter",
   "vidoomyBidAdapter",
   "yahoosspBidAdapter",
   "yieldlabBidAdapter",

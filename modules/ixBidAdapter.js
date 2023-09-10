@@ -1656,6 +1656,7 @@ export const spec = {
         const bidRequest = getBidRequest(innerBids[j].impid, requestBid.imp, bidderRequest.validBidRequests);
         bid = parseBid(innerBids[j], responseBody.cur, bidRequest);
 
+        /*
         if (bid.mediaType === VIDEO && isIndexRendererPreferred(bidRequest)) {
           const renderUrl = deepAccess(responseBody, 'ext.videoplayerurl');
           bid.renderer = createRenderer(innerBids[j].bidId, renderUrl);
@@ -1663,6 +1664,7 @@ export const spec = {
             continue;
           }
         }
+         */
 
         bids.push(bid);
       }
