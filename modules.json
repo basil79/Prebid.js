@@ -3,6 +3,7 @@
   "adfBidAdapter",
   "adtelligentBidAdapter",
   "appnexusBidAdapter",
+  "axonixBidAdapter",
   "colossussspBidAdapter",
   "conversantBidAdapter",
   "criteoBidAdapter",

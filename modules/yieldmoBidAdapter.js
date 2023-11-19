@@ -30,7 +30,7 @@ const STAGE_DOMAIN = 'https://ads-stg.yieldmo.com';
 const PROD_DOMAIN = 'https://ads.yieldmo.com';
 const OUTSTREAM_VIDEO_PLAYER_URL = 'https://prebid-outstream.yieldmo.com/bundle.js';
 const OPENRTB_VIDEO_BIDPARAMS = ['mimes', 'startdelay', 'placement', 'startdelay', 'skipafter', 'protocols', 'api',
-  'playbackmethod', 'maxduration', 'minduration', 'pos', 'skip', 'skippable'];
+  'playbackmethod', 'maxduration', 'minduration', 'pos', 'skip', 'skippable', 'plcmt'];
 const OPENRTB_VIDEO_SITEPARAMS = ['name', 'domain', 'cat', 'keywords'];
 const LOCAL_WINDOW = getWindowTop();
 const DEFAULT_PLAYBACK_METHOD = 2;
