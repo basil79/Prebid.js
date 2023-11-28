@@ -40,5 +40,6 @@
   "schain",
   "priceFloors",
   "pubProvidedIdSystem",
-  "unifiedIdSystem"
+  "unifiedIdSystem",
+  "hadronIdSystem"
 ]
