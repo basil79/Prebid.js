@@ -1,4 +1,16 @@
-import { logWarn, logInfo, isArray, isFn, deepAccess, isEmpty, contains, timestamp, getBidIdParameter, triggerPixel, isInteger } from '../src/utils.js';
+import {
+  logWarn,
+  logInfo,
+  isArray,
+  isFn,
+  deepAccess,
+  isEmpty,
+  contains,
+  timestamp,
+  triggerPixel,
+  isInteger,
+  getBidIdParameter
+} from '../src/utils.js';
 import {registerBidder} from '../src/adapters/bidderFactory.js';
 import {BANNER, VIDEO} from '../src/mediaTypes.js';
 import {config} from '../src/config.js';
@@ -7,7 +19,7 @@ const SUPPORTED_AD_TYPES = [BANNER, VIDEO];
 const BIDDER_CODE = 'rise';
 const ADAPTER_VERSION = '6.0.0';
 const TTL = 360;
-const CURRENCY = 'USD';
+const DEFAULT_CURRENCY = 'USD';
 const DEFAULT_SELLER_ENDPOINT = 'https://hb.yellowblue.io/';
 const MODES = {
   PRODUCTION: 'hb-multi',
@@ -61,7 +73,7 @@ export const spec = {
         const bidResponse = {
           requestId: adUnit.requestId,
           cpm: adUnit.cpm,
-          currency: adUnit.currency || CURRENCY,
+          currency: adUnit.currency || DEFAULT_CURRENCY,
           width: adUnit.width,
           height: adUnit.height,
           ttl: adUnit.ttl || TTL,
@@ -128,18 +140,20 @@ registerBidder(spec);
 /**
  * Get floor price
  * @param bid {bid}
+ * @param mediaType {string}
+ * @param currency {string}
  * @returns {Number}
  */
-function getFloor(bid, mediaType) {
+function getFloor(bid, mediaType, currency) {
   if (!isFn(bid.getFloor)) {
     return 0;
   }
   let floorResult = bid.getFloor({
-    currency: CURRENCY,
+    currency: currency,
     mediaType: mediaType,
     size: '*'
   });
-  return floorResult.currency === CURRENCY && floorResult.floor ? floorResult.floor : 0;
+  return floorResult.currency === currency && floorResult.floor ? floorResult.floor : 0;
 }
 
 /**
@@ -277,7 +291,7 @@ function generateBidParameters(bid, bidderRequest) {
   const {params} = bid;
   const mediaType = isBanner(bid) ? BANNER : VIDEO;
   const sizesArray = getSizesArray(bid, mediaType);
-
+  const currency = params.currency || config.getConfig('currency.adServerCurrency') || DEFAULT_CURRENCY;
   // fix floor price in case of NAN
   if (isNaN(params.floorPrice)) {
     params.floorPrice = 0;
@@ -287,11 +301,13 @@ function generateBidParameters(bid, bidderRequest) {
     mediaType,
     adUnitCode: getBidIdParameter('adUnitCode', bid),
     sizes: sizesArray,
-    floorPrice: Math.max(getFloor(bid, mediaType), params.floorPrice),
+    currency: currency,
+    floorPrice: Math.max(getFloor(bid, mediaType, currency), params.floorPrice),
     bidId: getBidIdParameter('bidId', bid),
     bidderRequestId: getBidIdParameter('bidderRequestId', bid),
     loop: getBidIdParameter('bidderRequestsCount', bid),
-    transactionId: getBidIdParameter('transactionId', bid),
+    transactionId: bid.ortb2Imp?.ext?.tid,
+    coppa: 0,
   };
 
   const pos = deepAccess(bid, `mediaTypes.${mediaType}.pos`);
@@ -317,6 +333,16 @@ function generateBidParameters(bid, bidderRequest) {
   const api = deepAccess(bid, `mediaTypes.${mediaType}.api`);
   if (api) {
     bidObject.api = api;
+  }
+
+  const sua = deepAccess(bid, `ortb2.device.sua`);
+  if (sua) {
+    bidObject.sua = sua;
+  }
+
+  const coppa = deepAccess(bid, `ortb2.regs.coppa`)
+  if (coppa) {
+    bidObject.coppa = 1;
   }
 
   if (mediaType === VIDEO) {
@@ -364,6 +390,11 @@ function generateBidParameters(bid, bidderRequest) {
     if (protocols) {
       bidObject.protocols = protocols;
     }
+
+    const plcmt = deepAccess(bid, `mediaTypes.video.plcmt`);
+    if (plcmt) {
+      bidObject.plcmt = plcmt;
+    }
   }
 
   return bidObject;
@@ -401,7 +432,7 @@ function generateGeneralParams(generalObject, bidderRequest) {
     device_type: getDeviceType(navigator.userAgent),
     ua: navigator.userAgent,
     is_wrapper: !!generalBidParams.isWrapper,
-    session_id: generalBidParams.sessionId || getBidIdParameter('auctionId', generalObject),
+    session_id: generalBidParams.sessionId || getBidIdParameter('bidderRequestId', generalObject),
     tmax: timeout
   };
 

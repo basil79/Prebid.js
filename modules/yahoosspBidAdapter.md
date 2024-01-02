@@ -19,6 +19,16 @@ The Yahoo Advertising Bid Adapter is an OpenRTB interface that consolidates all 
 * First Party Data (ortb2 & ortb2Imp)
 * Custom TTL (time to live)
 
+# Adapter Aliases
+Whilst the primary bidder code for this bid adapter is `yahooAds`, the aliases `yahoossp` and `yahooAdvertising` can be used to enable this adapter. If you wish to set Prebid configuration specifically for this bid adapter, then the configuration key _must_ match the used bidder code. All examples in this documentation use the primiry bidder code, but switching `yahooAds` with one of the relevant aliases may be required for your setup. Let's take [setting the request mode](#adapter-request-mode) as an example; if you used the `yahoossp` alias, then the corresponding `setConfig` API call would look like this:
+
+```javascript
+pbjs.setConfig({
+    yahoossp: {
+        mode: 'banner' // 'all', 'video', 'banner' (default)
+    }
+});
+```
 
 # Adapter Request mode
 Since the Yahoo Advertising bid adapter supports both Banner and Video adUnits, a controller was needed to allow you to define when the adapter should generate a bid-requests to the Yahoo bid endpoint.
@@ -48,7 +58,7 @@ pbjs.setConfig({
 The Yahoo Advertising bid adapter supports 2 types of integration:
 1. **dcn & pos** DEFAULT (Site/App & Position targeting) - For Display partners/publishers.
 2. **pubId** (Publisher ID) - For legacy "oneVideo" AND new partners/publishers.
-   **Important:** pubId integration (option 2) is only possible when your seller account is setup for "Inventory Mapping".
+**Important:** pubId integration (option 2) is only possible when your seller account is setup for "Inventory Mapping".
 
 **Please Note:** Most examples in this file are using dcn & pos.
 
@@ -64,8 +74,8 @@ At this time, only the following partners/publishers are eligble for pubId integ
 The minimal requirements for the Yahoo Advertising bid adapter to generate an outbound bid-request to Yahoo's bid endpoint are:
 1. At least 1 adUnit including mediaTypes: banner or video
 2. **bidder.params** object must include:
-   A. **dcn:** Yahoo Advertising Site/App inventory parameter.
-   B. **pos:** Yahoo Advertising position inventory parameter.
+    A. **dcn:** Yahoo Advertising Site/App inventory parameter.
+    B. **pos:** Yahoo Advertising position inventory parameter.
 
 ### Example: dcn & pos Mandatory Parameters (Single banner adUnit)
 ```javascript
@@ -92,7 +102,7 @@ const adUnits = [{
 The minimal requirements for the Yahoo Advertising bid adapter to generate an outbound bid-request to Yahoo's bid endpoint are:
 1. At least 1 adUnit including mediaTypes: banner or video
 2. **bidder.params** object must include:
-   A. **pubId:** Yahoo Advertising Publisher ID (AKA oneVideo pubId/Exchange name)
+    A. **pubId:** Yahoo Advertising Publisher ID (AKA oneVideo pubId/Exchange name)
 
 ### Example: pubId Mandatory Parameters (Single banner adUnit)
 ```javascript
@@ -387,7 +397,7 @@ const adUnits = [{
 The Yahoo Advertising bid adapter supports first party data passed via:
 1. Global ortb2 object using `pbjs.setConfig()`
 2. adUnit ortb2Imp object declared within an adUnit.
-   For further details please see, https://docs.prebid.org/features/firstPartyData.html
+For further details please see, https://docs.prebid.org/features/firstPartyData.html
 ## Global First Party Data "ortb2"
 ### Passing First Party "site" data:
 ```javascript
@@ -559,25 +569,25 @@ The use of these parameters are a last resort to force a specific feature or use
 
 Currently the bidOverride object only accepts the following:
 * imp
-    * video
-        * mimes
-        * w
-        * h
-        * maxbitrate
-        * maxduration
-        * minduration
-        * api
-        * delivery
-        * pos
-        * playbackmethod
-        * placement
-        * linearity
-        * protocols
-        * rewarded
+  * video
+    * mimes
+    * w
+    * h
+    * maxbitrate
+    * maxduration
+    * minduration
+    * api
+    * delivery
+    * pos
+    * playbackmethod
+    * placement
+    * linearity
+    * protocols
+    * rewarded
 * site
-    * page
+  * page
 * device
-    * ip
+  * ip
 
 ```javascript
 const adUnits = [{
@@ -749,8 +759,8 @@ const adUnits = [{
 To target your adUnit explicitly to a specific Site/App Object in Yahoo Advertising, you can pass one of the following:
 1. params.siteId = External Site ID || Video SSP RTBIS Id (in String format).
 2. params.bidOverride.site.id = External Site ID || Video SSP RTBIS Id (in String format).
-   **Important:** Site override is a only supported when using "pubId" mode.
-   **Important:** If you are switching from the oneVideo adapter, please make sure to pass inventoryid as a String instead of Integer.
+**Important:** Site override is a only supported when using "pubId" mode.
+**Important:** If you are switching from the oneVideo adapter, please make sure to pass inventoryid as a String instead of Integer.
 
 ```javascript
 const adUnits = [{

@@ -1,7 +1,8 @@
-import { formatQS, deepAccess, triggerPixel, _each, _map } from '../src/utils.js';
+import { formatQS, deepAccess, deepSetValue, triggerPixel, _each, _map } from '../src/utils.js';
 import { registerBidder } from '../src/adapters/bidderFactory.js';
 import { BANNER, NATIVE } from '../src/mediaTypes.js'
 import { convertOrtbRequestToProprietaryNative } from '../src/native.js';
+import { config } from '../src/config.js';
 
 const BIDDER_CODE = 'yandex';
 const BIDDER_URL = 'https://bs.yandex.ru/prebid';
@@ -76,9 +77,11 @@ export const spec = {
       timeout = bidderRequest.timeout;
     }
 
+    const adServerCurrency = config.getConfig('currency.adServerCurrency');
+
     return validBidRequests.map((bidRequest) => {
       const { params } = bidRequest;
-      const { targetRef, withCredentials = true } = params;
+      const { targetRef, withCredentials = true, cur } = params;
 
       const { pageId, impId } = extractPlacementIds(params);
 
@@ -107,20 +110,32 @@ export const spec = {
         imp.bidfloorcur = bidfloor.currency;
       }
 
+      const currency = cur || adServerCurrency;
+      if (currency) {
+        queryParams['ssp-cur'] = currency;
+      }
+
+      const data = {
+        id: bidRequest.bidId,
+        imp: [imp],
+        site: {
+          ref: referrer,
+          page,
+          domain,
+        },
+        tmax: timeout,
+      };
+
+      const eids = deepAccess(bidRequest, 'userIdAsEids');
+      if (eids && eids.length) {
+        deepSetValue(data, 'user.ext.eids', eids);
+      }
+
       const queryParamsString = formatQS(queryParams);
       return {
         method: 'POST',
         url: BIDDER_URL + `/${pageId}?${queryParamsString}`,
-        data: {
-          id: bidRequest.bidId,
-          imp: [imp],
-          site: {
-            ref: referrer,
-            page,
-            domain,
-          },
-          tmax: timeout,
-        },
+        data,
         options: {
           withCredentials,
         },
@@ -132,24 +147,13 @@ export const spec = {
   interpretResponse: interpretResponse,
 
   onBidWon: function (bid) {
-    let nurl = bid['nurl'];
+    const nurl = addRTT(bid['nurl'], bid.timeToRespond);
 
     if (!nurl) {
       return;
     }
 
-    let cpm, currency;
-    if (bid.hasOwnProperty('originalCurrency') && bid.hasOwnProperty('originalCpm')) {
-      cpm = bid.originalCpm;
-      currency = bid.originalCurrency;
-    } else {
-      cpm = bid.cpm;
-      currency = bid.currency;
-    }
-    cpm = deepAccess(bid, 'adserverTargeting.hb_pb') || cpm;
-
-    const pixel = replaceAuctionPrice(nurl, cpm, currency);
-    triggerPixel(pixel);
+    triggerPixel(nurl);
   }
 }
 
@@ -316,7 +320,7 @@ function interpretResponse(serverResponse, { bidRequest }) {
       width: bidReceived.w,
       height: bidReceived.h,
       creativeId: bidReceived.adid,
-      nurl: bidReceived.nurl,
+      nurl: replaceAuctionPrice(bidReceived.nurl, price, currency),
 
       netRevenue: true,
       ttl: DEFAULT_TTL,
@@ -379,6 +383,26 @@ function replaceAuctionPrice(url, price, currency) {
   return url
     .replace(/\${AUCTION_PRICE}/, price)
     .replace(/\${AUCTION_CURRENCY}/, currency);
+}
+
+function addRTT(url, rtt) {
+  if (!url) return;
+
+  if (url.indexOf(`\${RTT}`) > -1) {
+    return url.replace(/\${RTT}/, rtt ?? -1);
+  }
+
+  const urlObj = new URL(url);
+
+  if (Number.isInteger(rtt)) {
+    urlObj.searchParams.set('rtt', rtt);
+  } else {
+    urlObj.searchParams.delete('rtt');
+  }
+
+  url = urlObj.toString();
+
+  return url;
 }
 
 registerBidder(spec);
