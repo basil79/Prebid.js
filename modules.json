@@ -33,6 +33,7 @@
   "yieldmoBidAdapter",
   "zeta_global_sspBidAdapter",
   "consentManagement",
+  "consentManagementGpp",
   "consentManagementUsp",
   "enrichmentFpdModule",
   "gdprEnforcement",
