@@ -139,7 +139,8 @@ function updateConfigDefaultVendor(option) {
  */
 function validateConfigRequiredProps(option) {
   const keys = Object.keys(option);
-  if (['accountId', 'endpoint'].filter(key => {
+  // if (['accountId', 'endpoint'].filter(key => {
+  if (['endpoint'].filter(key => {
     if (!includes(keys, key)) {
       logError(key + ' missing in server to server config');
       return true;
