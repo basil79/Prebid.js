@@ -4,7 +4,7 @@ import {deepAccess, logInfo} from '../src/utils.js';
 import {config} from '../src/config.js';
 
 const BIDDER_CODE = 'anyclip';
-const ENDPOINT_URL = 'http://localhost:8088'; // TODO: replace
+const ENDPOINT_URL = 'https://prebid.anyclip.com';
 const DEFAULT_CURRENCY = 'USD';
 const NET_REVENUE = false;
 
@@ -29,6 +29,10 @@ export const spec = {
 
     // TODO: if publisher tag not already loaded try to get it from config
     logInfo('PubTag available?', isPubTagAvailable());
+
+    const timeout = bidderRequest.timeout;
+    const timeoutAdjustment = timeout - ((20 / 100) * timeout);
+
     if (isPubTagAvailable()) {
       if (!pubTag) {
         pubTag = window._anyclip.pubTag;
@@ -39,7 +43,7 @@ export const spec = {
         supplyTagId: bidRequest.params.supplyTagId,
         url: refererInfo.page,
         domain: refererInfo.domain,
-        prebidTimeout: bidderRequest.timeout,
+        prebidTimeout: timeoutAdjustment,
         gpid: bidRequest.adUnitCode,
         ext: {
           transactionId: bidRequest.transactionId,
@@ -90,23 +94,30 @@ export const spec = {
       }
 
       // Request bids
-      pubTag.requestBids(options);
-    } else {
-      // TODO: whitelist external js for
+      const requestBidsPromise = pubTag.requestBids(options);
+      if (requestBidsPromise !== undefined) {
+        requestBidsPromise
+          .then(() => {
+            logInfo('PubTag requestBids > DONE');
+          })
+          .catch((err) => {
+            logInfo('PubTag requestBids > ERROR', err);
+          });
+      }
 
-    }
+      // Request
+      const payload = {
+        tmax: timeoutAdjustment // timeout adjustment - 20%
+      }
 
-    const payload = {
-      tmax: bidderRequest.timeout
-    }
+      logInfo('payload', payload, 'delay', bidderRequest.timeout);
 
-    logInfo('payload', payload, 'delay', bidderRequest.timeout);
-
-    return {
-      method: 'GET',
-      url: ENDPOINT_URL,
-      data: payload,
-      bidRequest
+      return {
+        method: 'GET',
+        url: ENDPOINT_URL,
+        data: payload,
+        bidRequest
+      }
     }
   },
   interpretResponse: (serverResponse, { bidRequest }) => {
@@ -146,9 +157,6 @@ export const spec = {
     if (isPubTagAvailable() && pubTag) {
       pubTag.bidWon(bid);
     }
-  },
-  onBidderError: ({ error, bidderRequest }) => {
-
   }
 }
 
