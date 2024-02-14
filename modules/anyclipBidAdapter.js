@@ -27,9 +27,6 @@ export const spec = {
       refererInfo = bidderRequest.refererInfo;
     }
 
-    // TODO: if publisher tag not already loaded try to get it from config
-    logInfo('PubTag available?', isPubTagAvailable());
-
     const timeout = bidderRequest.timeout;
     const timeoutAdjustment = timeout - ((20 / 100) * timeout);
 
@@ -37,7 +34,7 @@ export const spec = {
       if (!pubTag) {
         pubTag = window._anyclip.pubTag;
       }
-      logInfo('PubTag is ready?', pubTag.version, pubTag.ready, validBidRequests, bidderRequest, bidRequest);
+      // Options
       const options = {
         publisherId: bidRequest.params.publisherId,
         supplyTagId: bidRequest.params.supplyTagId,
@@ -107,10 +104,8 @@ export const spec = {
 
       // Request
       const payload = {
-        tmax: timeoutAdjustment // timeout adjustment - 20%
+        tmax: timeoutAdjustment
       }
-
-      logInfo('payload', payload, 'delay', bidderRequest.timeout);
 
       return {
         method: 'GET',
@@ -123,11 +118,9 @@ export const spec = {
   interpretResponse: (serverResponse, { bidRequest }) => {
     const body = serverResponse.body || serverResponse;
     const bids = [];
-    logInfo('interpretResponse', serverResponse, bidRequest, bids);
 
     if (isPubTagAvailable() && pubTag) {
       const bidResponse = pubTag.getBids(bidRequest.transactionId);
-      logInfo('PubTag getBids', bidResponse);
       if (bidResponse) {
         const { adServer } = bidResponse;
         if (adServer) {
@@ -149,11 +142,7 @@ export const spec = {
 
     return bids;
   },
-  onTimeout: (timeoutData) => {
-    logInfo('onTimeout', timeoutData);
-  },
   onBidWon: (bid) => {
-    logInfo('onBidWon', bid);
     if (isPubTagAvailable() && pubTag) {
       pubTag.bidWon(bid);
     }
