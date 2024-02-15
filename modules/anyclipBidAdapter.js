@@ -28,7 +28,7 @@ export const spec = {
     }
 
     const timeout = bidderRequest.timeout;
-    const timeoutAdjustment = timeout - ((20 / 100) * timeout);
+    const timeoutAdjustment = timeout - ((20 / 100) * timeout); // timeout adjustment - 20%
 
     if (isPubTagAvailable()) {
       if (!pubTag) {
@@ -43,9 +43,7 @@ export const spec = {
         prebidTimeout: timeoutAdjustment,
         gpid: bidRequest.adUnitCode,
         ext: {
-          transactionId: bidRequest.transactionId,
-          // auctionId: bidRequest.auctionId,
-          // bidId: bidRequest.bidId
+          transactionId: bidRequest.transactionId
         },
         sizes: bidRequest.sizes.map((size) => {
           return {width: size[0], height: size[1]}
