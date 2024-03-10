@@ -1,5 +1,6 @@
 [
   "33acrossBidAdapter",
+  "adkernelBidAdapter",
   "adfBidAdapter",
   "adtelligentBidAdapter",
   "appnexusBidAdapter",
@@ -22,6 +23,7 @@
   "seedtagBidAdapter",
   "sharethroughBidAdapter",
   "smartadserverBidAdapter",
+  "smaatoBidAdapter",
   "sonobiBidAdapter",
   "sovrnBidAdapter",
   "smartxBidAdapter",
