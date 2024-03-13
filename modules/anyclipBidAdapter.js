@@ -1,27 +1,55 @@
 import {registerBidder} from '../src/adapters/bidderFactory.js';
 import {BANNER} from '../src/mediaTypes.js';
-import {deepAccess, logInfo} from '../src/utils.js';
+import {deepAccess, isArray, logError, logInfo} from '../src/utils.js';
 import {config} from '../src/config.js';
+
+/**
+ * @typedef {import('../src/adapters/bidderFactory.js').BidRequest} BidRequest
+ * @typedef {import('../src/adapters/bidderFactory.js').Bid} Bid
+ * @typedef {import('../src/adapters/bidderFactory.js').ServerRequest} ServerRequest
+ * @typedef {import('../src/adapters/bidderFactory.js').BidderSpec} BidderSpec
+ */
 
 const BIDDER_CODE = 'anyclip';
 const ENDPOINT_URL = 'https://prebid.anyclip.com';
 const DEFAULT_CURRENCY = 'USD';
 const NET_REVENUE = false;
 
-let pubTag = null;
-
+/** @type {BidderSpec} */
 export const spec = {
   code: BIDDER_CODE,
   supportedMediaTypes: [BANNER],
-  isBidRequestValid: (bid) => {
-    // publisherId and supplyTagId should be set
-    if (!(bid && bid.params && bid.params.publisherId && bid.params.supplyTagId)) {
-      return false;
+
+  /**
+   * @param {object} bid
+   * @return {boolean}
+   */
+  isBidRequestValid: (bid = {}) => {
+    const bidder = deepAccess(bid, 'bidder');
+    const params = deepAccess(bid, 'params', {});
+    const mediaTypes = deepAccess(bid, 'mediaTypes', {});
+    const banner = deepAccess(mediaTypes, BANNER, {});
+
+    const isValidBidder = (bidder === BIDDER_CODE);
+    const isValidSize = (Boolean(banner.sizes) && isArray(mediaTypes[BANNER].sizes) && mediaTypes[BANNER].sizes.length > 0);
+    const hasSizes = mediaTypes[BANNER] ? isValidSize : false;
+    const hasRequiredBidParams = Boolean(params.publisherId && params.supplyTagId);
+
+    const isValid = isValidBidder && hasSizes && hasRequiredBidParams;
+    if (!isValid) {
+      logError(`Invalid bid request: isValidBidder: ${isValidBidder}, hasSizes: ${hasSizes}, hasRequiredBidParams: ${hasRequiredBidParams}`);
     }
-    return true;
+    return isValid;
   },
+
+  /**
+   * @param {BidRequest[]} validBidRequests
+   * @param {*} bidderRequest
+   * @return {ServerRequest}
+   */
   buildRequests: (validBidRequests, bidderRequest) => {
     const bidRequest = validBidRequests[0];
+
     let refererInfo;
     if (bidderRequest && bidderRequest.refererInfo) {
       refererInfo = bidderRequest.refererInfo;
@@ -31,9 +59,6 @@ export const spec = {
     const timeoutAdjustment = timeout - ((20 / 100) * timeout); // timeout adjustment - 20%
 
     if (isPubTagAvailable()) {
-      if (!pubTag) {
-        pubTag = window._anyclip.pubTag;
-      }
       // Options
       const options = {
         publisherId: bidRequest.params.publisherId,
@@ -89,7 +114,7 @@ export const spec = {
       }
 
       // Request bids
-      const requestBidsPromise = pubTag.requestBids(options);
+      const requestBidsPromise = window._anyclip.pubTag.requestBids(options);
       if (requestBidsPromise !== undefined) {
         requestBidsPromise
           .then(() => {
@@ -113,12 +138,17 @@ export const spec = {
       }
     }
   },
+
+  /**
+   * @param {*} serverResponse
+   * @param {ServerRequest} bidRequest
+   * @return {Bid[]}
+   */
   interpretResponse: (serverResponse, { bidRequest }) => {
-    const body = serverResponse.body || serverResponse;
     const bids = [];
 
-    if (isPubTagAvailable() && pubTag) {
-      const bidResponse = pubTag.getBids(bidRequest.transactionId);
+    if (bidRequest && isPubTagAvailable()) {
+      const bidResponse = window._anyclip.pubTag.getBids(bidRequest.transactionId);
       if (bidResponse) {
         const { adServer } = bidResponse;
         if (adServer) {
@@ -140,15 +170,22 @@ export const spec = {
 
     return bids;
   },
+
+  /**
+   * @param {Bid} bid
+   */
   onBidWon: (bid) => {
-    if (isPubTagAvailable() && pubTag) {
-      pubTag.bidWon(bid);
+    if (isPubTagAvailable()) {
+      window._anyclip.pubTag.bidWon(bid);
     }
   }
 }
 
+/**
+ * @return {boolean}
+ */
 const isPubTagAvailable = () => {
-  return !!(window._anyclip && window._anyclip.PubTag);
+  return !!(window._anyclip && window._anyclip.pubTag);
 }
 
 registerBidder(spec);
