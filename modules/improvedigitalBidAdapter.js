@@ -10,7 +10,7 @@ import {loadExternalScript} from '../src/adloader.js';
 const BIDDER_CODE = 'improvedigital';
 const CREATIVE_TTL = 300;
 
-const AD_SERVER_BASE_URL = 'https://ad.360yield.com';
+const AD_SERVER_BASE_URL = 'https://ice.360yield.com';
 const BASIC_ADS_BASE_URL = 'https://ad.360yield-basic.com';
 const PB_ENDPOINT = 'pb';
 const EXTEND_URL = 'https://pbs.360yield.com/openrtb2/auction';

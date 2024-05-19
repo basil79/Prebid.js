@@ -48,5 +48,6 @@
   "priceFloors",
   "pubProvidedIdSystem",
   "unifiedIdSystem",
-  "hadronIdSystem"
+  "hadronIdSystem",
+  "geoedgeRtdProvider"
 ]
