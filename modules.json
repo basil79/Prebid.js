@@ -49,5 +49,6 @@
   "pubProvidedIdSystem",
   "unifiedIdSystem",
   "hadronIdSystem",
-  "geoedgeRtdProvider"
+  "geoedgeRtdProvider",
+  "prebidServerBidAdapter"
 ]
