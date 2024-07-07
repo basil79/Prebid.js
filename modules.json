@@ -14,6 +14,7 @@
   "freewheel-sspBidAdapter",
   "ixBidAdapter",
   "improvedigitalBidAdapter",
+  "insticatorBidAdapter",
   "kargoBidAdapter",
   "medianetBidAdapter",
   "minutemediaBidAdapter",
@@ -31,6 +32,7 @@
   "sonobiBidAdapter",
   "sovrnBidAdapter",
   "smartxBidAdapter",
+  "smilewantedBidAdapter",
   "tripleliftBidAdapter",
   "unrulyBidAdapter",
   "undertoneBidAdapter",
@@ -51,5 +53,6 @@
   "unifiedIdSystem",
   "hadronIdSystem",
   "geoedgeRtdProvider",
-  "prebidServerBidAdapter"
+  "prebidServerBidAdapter",
+  "s2sTesting"
 ]

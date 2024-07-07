@@ -10,7 +10,7 @@ Maintainer: contact@insticator.com
 Description
 ===========
 
-This module connects publishers to Insticator exchange of demand sources through Prebid.js. 
+This module connects publishers to Insticator exchange of demand sources through Prebid.js.
 
 ### Supported Media Types
 
