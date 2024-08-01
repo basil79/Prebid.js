@@ -258,6 +258,11 @@ function buildDevice(bidRequest) {
     Object.assign(device, deviceConfig);
   }
 
+  // ISO 2 letters
+  if (device.language && device.language.includes('-')) {
+    device.language = device.language.split('-')[0];
+  }
+
   return device;
 }
 
