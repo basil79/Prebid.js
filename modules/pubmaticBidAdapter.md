@@ -70,6 +70,7 @@ var adVideoAdUnits = [
           protocols: [ 2, 3 ],                  // optional
           battr: [ 13, 14 ],                    // optional
           linearity: 1,                         // optional
+          plcmt: 1,                             // optional
           placement: 2,                         // optional
           minbitrate: 10,                       // optional
           maxbitrate: 10                        // optional
@@ -169,6 +170,7 @@ var adUnits = [
           protocols: [ 2, 3 ],                  // optional
           battr: [ 13, 14 ],                    // optional
           linearity: 1,                         // optional
+          plcmt: 1,                             // optional
           placement: 2,                         // optional
           minbitrate: 10,                       // optional
           maxbitrate: 10                        // optional
@@ -201,9 +203,8 @@ pbjs.setConfig({
 });
 
 ```
-Note: Combine the above the configuration with any other UserSync configuration.  Multiple setConfig() calls overwrite each other and only last call for a given attribute will take effect. 
+Note: Combine the above the configuration with any other UserSync configuration.  Multiple setConfig() calls overwrite each other and only last call for a given attribute will take effect.
 
-# Notes: 
+# Notes:
 - PubMatic will return a test-bid if "pubmaticTest=true" is present in page URL
 - PubMatic will set bid.adserverTargeting.hb_buyid_pubmatic targeting key while submitting a bid into Prebid
-

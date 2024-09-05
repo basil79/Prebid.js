@@ -9,7 +9,7 @@
 # Description
 
 Module that connects to Vidazoo's demand sources.
- 
+
 # Test Parameters
 ```js
 var adUnits = [

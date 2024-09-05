@@ -480,7 +480,10 @@ export function PrebidServer() {
           done();
           doClientSideSyncs(requestedBidders, gdprConsent, uspConsent, gppConsent);
         },
-        onError: done,
+        onError: function (msg, error) {
+          events.emit(CONSTANTS.EVENTS.S2S_HTTP_ERROR, {msg, error});
+          done();
+        },
         onBid: function ({adUnit, bid}) {
           const metrics = bid.metrics = s2sBidRequest.metrics.fork().renameWith();
           metrics.checkpoint('addBidResponse');

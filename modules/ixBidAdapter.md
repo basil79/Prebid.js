@@ -21,31 +21,31 @@ to accommodate new feature additions.
 ##### Newer Format
 ```javascript
 var adUnits = [{
-    // ...
-    mediaTypes: {
-        banner: {
-            sizes: [
-                [300, 250],
-                [300, 600]
-            ]
-        },
-        video: {
-            context: 'instream',
-            playerSize: [300, 250]
-        },
-        native: {
-            title: {
-                required: true
-            },
-            image: {
-                required: true
-            },
-            body: {
-                required: false
-            }
-        },
+  // ...
+  mediaTypes: {
+    banner: {
+      sizes: [
+        [300, 250],
+        [300, 600]
+      ]
     },
-    // ...
+    video: {
+      context: 'instream',
+      playerSize: [300, 250]
+    },
+    native: {
+      title: {
+        required: true
+      },
+      image: {
+        required: true
+      },
+      body: {
+        required: false
+      }
+    },
+  },
+  // ...
 }];
 ```
 
@@ -154,14 +154,14 @@ Here are examples of the format.
 ##### Older Deprecated Format
 ```javascript
 var adUnits = [{
-    // ...
+  // ...
 
-    sizes: [
-        [300, 250],
-        [300, 600]
-    ]
+  sizes: [
+    [300, 250],
+    [300, 600]
+  ]
 
-    // ...
+  // ...
 }];
 ```
 
@@ -181,30 +181,30 @@ In regards to video, `context` can either be `'instream'` or `'outstream'`.
 
 ```javascript
 var adUnits = [{
-    code: 'banner-div-a',
-    mediaTypes: {
-        banner: {
-            sizes: [
-                [300, 250],
-                [300, 600]
-            ]
-        }
-    },
-    bids: []
+  code: 'banner-div-a',
+  mediaTypes: {
+    banner: {
+      sizes: [
+        [300, 250],
+        [300, 600]
+      ]
+    }
+  },
+  bids: []
 },
-{
+  {
     code: 'video-div-a',
     mediaTypes: {
-        video: {
-            context: 'instream',
-            playerSize: [
-                [300, 250],
-                [300, 600]
-            ]
-        }
+      video: {
+        context: 'instream',
+        playerSize: [
+          [300, 250],
+          [300, 600]
+        ]
+      }
     },
     bids: []
-}];
+  }];
 ```
 
 ### 1. Add IX to the appropriate ad units
@@ -215,11 +215,11 @@ bid objects under `adUnits[].bids`:
 
 ```javascript
 {
-    bidder: 'ix',
+  bidder: 'ix',
     params: {
-        siteId: '',
-        size: [] // deprecated
-    }
+    siteId: '',
+      size: [] // deprecated
+  }
 }
 ```
 
@@ -232,56 +232,56 @@ by your IX representative.
 **Banner:**
 ```javascript
 var adUnits = [{
-    code: 'banner-div-a',
-    mediaTypes: {
-        banner: {
-            sizes: [
-                [300, 250],
-                [300, 600]
-            ]
-        }
-    },
-    bids: [{
-        bidder: 'ix',
-        params: {
-            siteId: '12345'
-        }
-    }]
+  code: 'banner-div-a',
+  mediaTypes: {
+    banner: {
+      sizes: [
+        [300, 250],
+        [300, 600]
+      ]
+    }
+  },
+  bids: [{
+    bidder: 'ix',
+    params: {
+      siteId: '12345'
+    }
+  }]
 }];
 ```
 **Video (Instream):**
 ```javascript
 var adUnits = [{
-    code: 'video-div-a',
-    mediaTypes: {
-        video: {
-            // Preferred location for openrtb v2.5 compatible video obj
-            context: 'instream',
-            playerSize: [300, 250],
-            mimes: [
-                'video/mp4',
-                'video/webm'
-            ],
-            minduration: 0,
-            maxduration: 60,
-            protocols: [6]
-        }
-    },
-    bids: [{
-        bidder: 'ix',
-        params: {
-            siteId: '12345'
-        }
-    }, {
-        bidder: 'ix',
-        params: {
-            siteId: '12345',
-            video: {
-                // openrtb v2.5 compatible video obj
-                // If required, use this to override mediaTypes.video.XX properties
-            }
-        }
-    }]
+  code: 'video-div-a',
+  mediaTypes: {
+    video: {
+      // Preferred location for openrtb v2.5 compatible video obj
+      context: 'instream',
+      playerSize: [300, 250],
+      mimes: [
+        'video/mp4',
+        'video/webm'
+      ],
+      minduration: 0,
+      maxduration: 60,
+      protocols: [6]
+    }
+  },
+  bids: [{
+    bidder: 'ix',
+    params: {
+      siteId: '12345'
+    }
+  }, {
+    bidder: 'ix',
+    params: {
+      siteId: '12345',
+      video: {
+        // openrtb v2.5 compatible video obj
+        // If required, use this to override mediaTypes.video.XX properties
+      }
+    }
+  }]
 }];
 ```
 Please note that you can re-use the existing `siteId` within the same flex
@@ -303,31 +303,31 @@ For more information on how to structure the `video` object, refer to the follow
 
 ```javascript
 var adUnits = [{
-    code: 'div-gpt-ad-1571167646410-1',
-    mediaTypes: {
-        video: {
-            playerSize: [640, 360],
-            context: 'outstream',
-            api: [2],
-            protocols: [2, 3, 5, 6],
-            minduration: 5,
-            maxduration: 30,
-            mimes: ['video/mp4', 'application/javascript'],
-            placement: 5
+  code: 'div-gpt-ad-1571167646410-1',
+  mediaTypes: {
+    video: {
+      playerSize: [640, 360],
+      context: 'outstream',
+      api: [2],
+      protocols: [2, 3, 5, 6],
+      minduration: 5,
+      maxduration: 30,
+      mimes: ['video/mp4', 'application/javascript'],
+      placement: 5
+    }
+  },
+  bids: [{
+    bidder: 'ix',
+    params: {
+      siteId: '715964'
+      video: {
+        playerConfig: {
+          floatOnScroll: true,
+          floatSize: [300,250]
         }
-    },
-    bids: [{
-        bidder: 'ix',
-        params: {
-            siteId: '715964'
-            video: {
-                playerConfig: {
-                    floatOnScroll: true,
-                    floatSize: [300,250]
-                }
-            }
-        }
-    }]
+      }
+    }
+  }]
 }];
 ```
 <em>Please note that your use of the outstream video player will be governed by and subject to the terms and conditions of i) any master services or license agreement entered into by you and Index Exchange; ii) the information provided on our knowledge base linked [here](https://kb.indexexchange.com/publishers/prebid_integration/outstream_video_prebidjs.htm) and [here](https://kb.indexexchange.com/publishers/guidelines/standard_contractual_clauses.htm), and iii) our [Privacy Policy](https://www.indexexchange.com/privacy/). Your use of Index’s outstream video player constitutes your acknowledgement and acceptance of the foregoing. </em>
@@ -368,26 +368,26 @@ pbjs.setConfig({
 
 ```javascript
 var adUnits = [{
-    code: 'native-div-a',
-    mediaTypes: {
-        native: {
-            title: {
-                required: true
-            },
-            image: {
-                required: true
-            },
-            sponsoredBy: {
-                required: false
-            }
-        }
-    },
-    bids: [{
-        bidder: 'ix',
-        params: {
-            siteId: '715966'
-        }
-    }]
+  code: 'native-div-a',
+  mediaTypes: {
+    native: {
+      title: {
+        required: true
+      },
+      image: {
+        required: true
+      },
+      sponsoredBy: {
+        required: false
+      }
+    }
+  },
+  bids: [{
+    bidder: 'ix',
+    params: {
+      siteId: '715966'
+    }
+  }]
 }];
 ```
 
@@ -404,10 +404,10 @@ to the top-level array in that file.
 
 ```json
 [
-    "ixBidAdapter",
-    "dfpAdServerVideo",
-    "fooBidAdapter",
-    "bazBidAdapter"
+  "ixBidAdapter",
+  "dfpAdServerVideo",
+  "fooBidAdapter",
+  "bazBidAdapter"
 ]
 ```
 
@@ -434,13 +434,13 @@ to values as such:
 
 ```javascript
 pbjs.setConfig({
-    ix: {
-        firstPartyData: {
-            '<key name>': '<key value>',
-            '<key name>': '<key value>',
-            // ...
-        }
+  ix: {
+    firstPartyData: {
+      '<key name>': '<key value>',
+      '<key name>': '<key value>',
+      // ...
     }
+  }
 });
 ```
 
@@ -461,13 +461,18 @@ such:
 
 ```javascript
 pbjs.setConfig({
-    ix: {
-        timeout: 500
-    }
+  ix: {
+    timeout: 500
+  }
 });
 ```
 
 The timeout value must be a positive whole number in milliseconds.
+
+Protected Audience API (FLEDGE)
+===========================
+
+In order to enable receiving [Protected Audience API](https://developer.chrome.com/en/docs/privacy-sandbox/fledge/) traffic, follow Prebid's documentation on [paapiForGpt](https://docs.prebid.org/dev-docs/modules/paapiForGpt.html) module to build and enable Fledge.
 
 Additional Information
 ======================

@@ -9,7 +9,7 @@ Maintainer: engineering@gumgum.com
 # Description
 
 GumGum adapter for Prebid.js
-Please note that both video and in-video products require a mediaType of video. 
+Please note that both video and in-video products require a mediaType of video.
 In-screen, slot, and skins products should have a mediaType of banner.
 
 # Test Parameters
