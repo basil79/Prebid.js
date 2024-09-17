@@ -1001,24 +1001,30 @@ if (FEATURES.VIDEO) {
    * @alias module:pbjs.markWinningBidAsUsed
    */
   pbjsInstance.markWinningBidAsUsed = function (markBidRequest) {
-    let bids = [];
-
-    if (markBidRequest.adUnitCode && markBidRequest.adId) {
-      bids = auctionManager.getBidsReceived()
-        .filter(bid => bid.adId === markBidRequest.adId && bid.adUnitCode === markBidRequest.adUnitCode);
-    } else if (markBidRequest.adUnitCode) {
-      bids = targeting.getWinningBids(markBidRequest.adUnitCode);
-    } else if (markBidRequest.adId) {
-      bids = auctionManager.getBidsReceived().filter(bid => bid.adId === markBidRequest.adId);
-    } else {
-      logWarn('Improper use of markWinningBidAsUsed. It needs an adUnitCode or an adId to function.');
-    }
+    const bids = fetchReceivedBids(markBidRequest, 'Improper use of markWinningBidAsUsed. It needs an adUnitCode or an adId to function.');
 
     if (bids.length > 0) {
-      bids[0].status = CONSTANTS.BID_STATUS.RENDERED;
+      auctionManager.addWinningBid(bids[0]);
     }
   }
 }
+
+const fetchReceivedBids = (bidRequest, warningMessage) => {
+  let bids = [];
+
+  if (bidRequest.adUnitCode && bidRequest.adId) {
+    bids = auctionManager.getBidsReceived()
+      .filter(bid => bid.adId === bidRequest.adId && bid.adUnitCode === bidRequest.adUnitCode);
+  } else if (bidRequest.adUnitCode) {
+    bids = targeting.getWinningBids(bidRequest.adUnitCode);
+  } else if (bidRequest.adId) {
+    bids = auctionManager.getBidsReceived().filter(bid => bid.adId === bidRequest.adId);
+  } else {
+    logWarn(warningMessage);
+  }
+
+  return bids;
+};
 
 /**
  * Get Prebid config options
