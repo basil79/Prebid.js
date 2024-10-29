@@ -118,16 +118,16 @@ var adUnits = [{
 
 ```html
  <!-- Prebid Config section -->
- <script>
-     var PREBID_TIMEOUT = 700;
-     var adUnits = [{
-         code: 'brave-prebid',
-         sizes: [[300, 250]],
-         bids: [{
+<script>
+    var PREBID_TIMEOUT = 700;
+    var adUnits = [{
+        code: 'brave-prebid',
+        sizes: [[300, 250]],
+        bids: [{
             bidder: 'brave'
             placementId : "PUT_YOUR_brave_placementId",
-         }]
-     }];
+        }]
+    }];
     var pbjs = pbjs || {};
     pbjs.que = pbjs.que || [];
 </script>
