@@ -117,16 +117,16 @@ var adUnits = [{
 
 ```html
  <!-- Prebid Config section -->
- <script>
-     var PREBID_TIMEOUT = 700;
-     var adUnits = [{
-         code: 'videoheroes-prebid',
-         sizes: [[300, 250]],
-         bids: [{
+<script>
+    var PREBID_TIMEOUT = 700;
+    var adUnits = [{
+        code: 'videoheroes-prebid',
+        sizes: [[300, 250]],
+        bids: [{
             bidder: 'videoheroes'
             placementId : "PUT_YOUR_videoheroes_placementId",
-         }]
-     }];
+        }]
+    }];
     var pbjs = pbjs || {};
     pbjs.que = pbjs.que || [];
 </script>
