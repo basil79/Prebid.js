@@ -1,4 +1,4 @@
-	
+
 # Overview
 
 ```
@@ -13,7 +13,7 @@ Maintainer: engineering@ozoneproject.com
 Module that connects to the Ozone Project's demand source(s).
 
 The Ozone Project bid adapter supports Banner and Outstream Video mediaTypes ONLY.
- 
+
 # Test Parameters
 
 
@@ -73,6 +73,8 @@ adUnits = [{
                 }];
 ```
 
+
+```
 //Instream Video adUnit
 
 adUnits = [{
