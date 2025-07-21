@@ -2,7 +2,7 @@
 
 **Module Name**: Teads Bidder Adapter  
 **Module Type**: Bidder Adapter  
-**Maintainer**: innov-ssp@teads.tv 
+**Maintainer**: innov-ssp@teads.tv
 
 # Description
 

@@ -16,6 +16,7 @@
   "criteoBidAdapter",
   "emx_digitalBidAdapter",
   "eskimiBidAdapter",
+  "fluctBidAdapter",
   "freewheel-sspBidAdapter",
   "gumgumBidAdapter",
   "gridBidAdapter",
