@@ -143,7 +143,8 @@ function updateConfigDefaults(s2sConfig) {
  * @return {boolean}
  */
 function validateConfigRequiredProps(s2sConfig) {
-  for (const key of ['accountId', 'endpoint']) {
+  //for (const key of ['accountId', 'endpoint']) {
+  for (const key of ['endpoint']) {
     if (s2sConfig[key] == null) {
       logError(key + ' missing in server to server config');
       return false;

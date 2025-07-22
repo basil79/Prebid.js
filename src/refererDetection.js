@@ -235,24 +235,41 @@ export function detectReferer(win) {
       page = `${page}${location.substring(location.indexOf('?'))}`;
     }
 
+    // Replace 'about:srcdoc' with the last one
+    // const newStack = stack.filter(url => url !== 'about:srcdoc');
+    // Replace excludes with the last one
+    let excludes = 'about:srcdoc .ampproject.net'.split(' ');
+    function findInExcludes(url) {
+      for (let i = 0; i < excludes.length; i++) {
+        if (url.includes(excludes[i])) {
+          return true;
+        }
+      }
+      return false
+    }
+    const newStack = stack.filter(url => !findInExcludes(url));
+    if (newStack.length != 0 && newStack.length != stack.length) {
+      newStack.push(newStack[newStack.length - 1]);
+    }
+
     return {
       reachedTop,
       isAmp: valuesFromAmp,
       numIframes: level - 1,
-      stack,
+      stack: newStack, // stack
       topmostLocation: bestLocation || null,
       location,
       canonicalUrl,
       page,
       domain: parseDomain(page) || null,
-      ref: ref || null,
+      ref: bestLocation || null, // ref: ref || null,
       // TODO: the "legacy" refererInfo object is provided here, for now, to accomodate
       // adapters that decided to just send it verbatim to their backend.
       legacy: {
         reachedTop,
         isAmp: valuesFromAmp,
         numIframes: level - 1,
-        stack,
+        stack: newStack, // stack
         referer: bestLocation || null,
         canonicalUrl
       }
