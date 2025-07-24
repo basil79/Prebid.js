@@ -202,9 +202,11 @@ const PBS_CONVERTER = ortbConverter({
           bidders: [bidder],
           config: {ortb2: context.getRedactor(bidder).ortb2(ortb2)}
         }));
+        /*
         if (fpdConfigs.length) {
           deepSetValue(ortbRequest, 'ext.prebid.bidderconfig', fpdConfigs);
         }
+         */
       },
       extPrebidAliases(orig, ortbRequest, proxyBidderRequest, context) {
         // override alias processing to do it for each bidder in the request

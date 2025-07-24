@@ -143,7 +143,7 @@ function updateConfigDefaults(s2sConfig) {
  * @return {boolean}
  */
 function validateConfigRequiredProps(s2sConfig) {
-  //for (const key of ['accountId', 'endpoint']) {
+  // for (const key of ['accountId', 'endpoint']) {
   for (const key of ['endpoint']) {
     if (s2sConfig[key] == null) {
       logError(key + ' missing in server to server config');
@@ -457,6 +457,8 @@ export function PrebidServer() {
             logError(`Prebid server call failed: '${msg}'. Endpoints: p1Consent "${p1Consent}", noP1Consent "${noP1Consent}"}`, error);
           }
           bidRequests.forEach(bidderRequest => events.emit(EVENTS.BIDDER_ERROR, { error, bidderRequest }));
+          // TODO: S2S_HTTP_ERROR
+          events.emit(EVENTS.S2S_HTTP_ERROR, {msg, error});
           done(error.timedOut);
         },
         onBid: function ({adUnit, bid}) {

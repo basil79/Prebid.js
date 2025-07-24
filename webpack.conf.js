@@ -7,7 +7,11 @@ var helpers = require('./gulpHelpers.js');
 var { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 var argv = require('yargs').argv;
 const fs = require('fs');
-const babelConfig = require('./babelConfig.js')({disableFeatures: helpers.getDisabledFeatures(), prebidDistUrlBase: argv.distUrlBase});
+const babelConfig = require('./babelConfig.js')({
+  disableFeatures: helpers.getDisabledFeatures(),
+  prebidDistUrlBase: argv.distUrlBase,
+  globalVarName: prebid.globalVarName
+});
 const {WebpackManifestPlugin} = require('webpack-manifest-plugin')
 
 // Check if ES5 mode is requested
