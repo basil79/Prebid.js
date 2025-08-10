@@ -33,6 +33,7 @@
   "openxBidAdapter",
   "onetagBidAdapter",
   "ozoneBidAdapter",
+  "pgamsspBidAdapter",
   "pubmaticBidAdapter",
   "pulsepointBidAdapter",
   "richaudienceBidAdapter",

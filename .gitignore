@@ -1,6 +1,8 @@
 # Built Files
 node_modules/
 build
+dist/
+.cache/
 
 # Test Files
 test/app
