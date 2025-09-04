@@ -1,6 +1,8 @@
 [
   "33acrossBidAdapter",
   "adagioBidAdapter",
+  "adgridBidAdapter",
+  "adyoulikeBidAdapter",
   "adkernelBidAdapter",
   "adfBidAdapter",
   "acuityadsBidAdapter",
@@ -32,6 +34,8 @@
   "nextMillenniumBidAdapter",
   "openxBidAdapter",
   "onetagBidAdapter",
+  "omnidexBidAdapter",
+  "optidigitalBidAdapter",
   "ozoneBidAdapter",
   "pgamsspBidAdapter",
   "pubmaticBidAdapter",
