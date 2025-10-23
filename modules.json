@@ -71,6 +71,7 @@
   "schain",
   "priceFloors",
   "pubProvidedIdSystem",
+  "uid2IdSystem",
   "unifiedIdSystem",
   "hadronIdSystem",
   "geoedgeRtdProvider",
