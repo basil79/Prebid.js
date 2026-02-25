@@ -26,6 +26,7 @@
   "adtelligentBidAdapter",
   "improvedigitalBidAdapter",
   "outbrainBidAdapter",
+  "ttdBidAdapter",
 
   "fpdModule",
   "prebidServerBidAdapter",
@@ -51,6 +52,6 @@
   "criteoIdSystem",
   "liveIntentIdSystem",
 
-  "rtdModule",
+
   "gameraRtdProvider"
 ]
