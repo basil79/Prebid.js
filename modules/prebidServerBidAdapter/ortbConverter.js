@@ -202,9 +202,11 @@ const PBS_CONVERTER = ortbConverter({
           bidders: [bidder],
           config: { ortb2: context.getRedactor(bidder).ortb2(ortb2) }
         }));
+        /*
         if (fpdConfigs.length) {
           deepSetValue(ortbRequest, 'ext.prebid.bidderconfig', fpdConfigs);
         }
+         */
 
         // Handle schain information after FPD processing
         // Collect schains from bidder requests and organize into ext.prebid.schains
