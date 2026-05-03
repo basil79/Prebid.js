@@ -1,0 +1,18 @@
+[
+  "inmobiBidAdapter",
+  "pubmaticBidAdapter",
+  "sovrnBidAdapter",
+  "vidazooBidAdapter",
+  "consentManagementGpp",
+  "consentManagementUsp",
+  "consentManagementTcf",
+  "gppControl_usnat",
+  "gppControl_usstates",
+  "storageControl",
+  "tcfControl",
+  "gptPreAuction",
+  "schain",
+  "sharedIdSystem",
+  "pubProvidedIdSystem",
+  "unifiedIdSystem"
+]
