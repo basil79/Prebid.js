@@ -1,8 +1,10 @@
 [
   "inmobiBidAdapter",
   "pubmaticBidAdapter",
+  "smaatoBidAdapter",
   "sovrnBidAdapter",
   "vidazooBidAdapter",
+  "kueezRtbBidAdapter",
   "consentManagementGpp",
   "consentManagementUsp",
   "consentManagementTcf",
@@ -12,6 +14,8 @@
   "tcfControl",
   "gptPreAuction",
   "schain",
+  "priceFloors",
+  "userId",
   "sharedIdSystem",
   "pubProvidedIdSystem",
   "unifiedIdSystem"
