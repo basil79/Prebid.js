@@ -1,4 +1,5 @@
 [
+  "axonixBidAdapter",
   "inmobiBidAdapter",
   "pubmaticBidAdapter",
   "smaatoBidAdapter",
