@@ -42,6 +42,7 @@
   "optidigitalBidAdapter",
   "omsBidAdapter",
   "ozoneBidAdapter",
+  "peak226BidAdapter",
   "pgamsspBidAdapter",
   "pinkLionBidAdapter",
   "pubmaticBidAdapter",
