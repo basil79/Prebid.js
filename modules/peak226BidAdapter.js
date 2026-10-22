@@ -4,12 +4,24 @@ import { deepAccess, deepSetValue, groupBy, isNumber, isStr, replaceAuctionPrice
 import { ortbConverter } from '../libraries/ortbConverter/converter.js';
 import { CLIENT_SECTIONS, hasSection } from '../src/fpd/oneClient.js';
 
+/**
+ * Bidder parameters for the peak226 adapter.
+ *
+ * @typedef {Object} Peak226BidderParams
+ * @property {string} [publisherId] Publisher account ID. Optional override for
+ *   `{dooh|app|site}.publisher.id`, which can also be supplied through `ortb2` first party data.
+ * @property {string} [placementId] Placement ID for this ad unit. Optional override for
+ *   `imp.tagid`, which can also be supplied through `ortb2Imp`. `ortb2Imp.ext.gpid` is also
+ *   accepted as a placement identifier for validity purposes when neither this param nor
+ *   `ortb2Imp.tagid` is set.
+ * @property {'us'|'eu'|'jp'} [region] Data center to route the request to. Defaults to `'us'`.
+ */
+
 const BIDDER_CODE = 'peak226';
 const GVLID = 1202;
 const DEFAULT_CURRENCY = 'USD';
 const DEFAULT_TTL = 300;
 const DEFAULT_REGION = 'us';
-
 const ENDPOINTS = {
   us: 'https://us.a.viddea.com/edge_direct',
   eu: 'https://eu.a.viddea.com/edge_direct',
@@ -88,6 +100,8 @@ const converter = ortbConverter({
     // the default native processor (which only reads bid.adm) can pick it up.
     const admNative = bid.adm_native;
     if (!bid.adm && admNative) {
+      // core's native processor accepts adm as either a JSON string or an already-parsed
+      // object at runtime, even though the ORTB type only declares the string form.
       bid.adm = resolveAuctionPriceDeep(admNative, bid.price);
     }
     // peak226 returns ${AUCTION_PRICE} in markup and notice URLs; core only expands it in
